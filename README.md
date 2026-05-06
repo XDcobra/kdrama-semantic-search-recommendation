@@ -18,6 +18,18 @@ End-to-end flow:
 5. Import vectors + metadata into Weaviate
 6. Query text -> embedder -> nearVector search -> top results in UI
 
+## Dataset Sources
+
+The dataset pipeline is built from IMDb public sources:
+
+- IMDb Non-Commercial Datasets (TSV dumps): `https://datasets.imdbws.com/`
+  - `title.basics.tsv.gz`
+  - `title.akas.tsv.gz`
+- IMDb Korean TV listing (scope reference):
+  - `https://www.imdb.com/search/title/?title_type=tv_series&countries=KR`
+
+These sources are used to build and validate candidate K-drama IDs before downstream preprocessing and embedding.
+
 ## Project Structure
 
 ```text
