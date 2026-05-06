@@ -1,0 +1,49 @@
+# Weaviate + room for the Go API service. Adjust versions as needed.
+#
+# From repo root:  docker compose -f deploy/docker-compose.yml up -d
+# Or from here:     docker compose up -d
+
+services:
+  weaviate:
+    image: semitechnologies/weaviate:1.37.2
+    restart: on-failure:0
+    ports:
+      - "8080:8080"
+    environment:
+      QUERY_DEFAULTS_LIMIT: "25"
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      PERSISTENCE_DATA_PATH: "/var/lib/weaviate"
+      DEFAULT_VECTORIZER_MODULE: "none"
+      ENABLE_MODULES: ""
+      CLUSTER_HOSTNAME: "node1"
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.api
+    ports:
+      - "8081:8080"
+    environment:
+      HTTP_ADDR: ":8080"
+      WEAVIATE_SCHEME: "http"
+      WEAVIATE_HOST: weaviate
+      WEAVIATE_PORT: "8080"
+      WEAVIATE_CLASS_NAME: "KDrama"
+      EMBEDDER_URL: "http://embedder:8000/embed"
+    depends_on:
+      - weaviate
+      - embedder
+
+  embedder:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.embedder
+    environment:
+      EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
+    ports:
+      - "8000:8000"
+
+volumes:
+  weaviate_data:

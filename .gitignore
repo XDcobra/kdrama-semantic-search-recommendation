@@ -1,0 +1,38 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!.example.env
+
+# Data (keep layout; ignore acquired datasets)
+/data/raw/*
+!/data/raw/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.Python
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Go
+/bin/
+*.exe
+*.test
+vendor/
+
+# IDE / OS
+.idea/
+.vscode/
+.cursor/
+.claude/
+*.swp
+.DS_Store
+
+# Models cache (Hugging Face, etc.)
+.cache/
+models/

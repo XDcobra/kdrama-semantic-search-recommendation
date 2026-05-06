@@ -1,0 +1,13 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY python/requirements.txt /app/python/requirements.txt
+RUN pip install --no-cache-dir -r /app/python/requirements.txt && \
+    pip install --no-cache-dir fastapi uvicorn
+
+COPY python /app/python
+
+EXPOSE 8000
+CMD ["uvicorn", "python.embed.embedder_service:app", "--host", "0.0.0.0", "--port", "8000"]
+

@@ -1,0 +1,9 @@
+numpy
+pandas
+sentence-transformers
+torch
+tqdm
+httpx
+tenacity
+fastapi
+uvicorn

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>K-Drama Semantic Recommendation</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body { font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; margin: 40px; max-width: 860px; }
+      h1 { margin: 0 0 8px; font-size: 28px; }
+      p { line-height: 1.5; }
+      .card { border: 1px solid rgba(127,127,127,.35); border-radius: 12px; padding: 16px; margin: 16px 0; }
+      code { padding: 2px 6px; border-radius: 6px; background: rgba(127,127,127,.15); }
+      .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+      input[type="text"] { flex: 1; min-width: 260px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(127,127,127,.35); }
+      button { padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(127,127,127,.35); background: transparent; cursor: pointer; }
+      pre { overflow: auto; }
+      .muted { opacity: .8; }
+      .hidden { display: none; }
+      .carousel-wrap { margin-top: 12px; }
+      .carousel-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+      .carousel-nav button { min-width: 90px; }
+      .carousel-track {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding-bottom: 6px;
+      }
+      .rec-card {
+        border: 1px solid rgba(127,127,127,.35);
+        border-radius: 12px;
+        padding: 12px;
+        min-width: 280px;
+        width: 280px;
+        flex: 0 0 auto;
+      }
+      .rec-image {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        margin: 0 auto 10px;
+        background: rgba(127,127,127,.12);
+      }
+      .rec-plot { margin-top: 8px; line-height: 1.45; }
+      .rec-meta { opacity: .85; margin-top: 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>K-Drama Semantic Recommendation</h1>
+    <p class="muted">
+      Minimal demo UI: show pipeline + text input + results.
+      The API runs on <code>/</code> (this page) and health endpoints on <code>/healthz</code>, <code>/readyz</code>.
+    </p>
+
+    <div class="card">
+      <strong>Pipeline</strong>
+      <ol>
+        <li>Query text</li>
+        <li>Embedding (Sentence Transformers)</li>
+        <li>Vector similarity search (Weaviate)</li>
+        <li>Ranked recommendations</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <strong>Try it</strong>
+      <div class="row" style="margin-top: 10px;">
+        <input id="q" type="text" placeholder="Describe a drama you want (e.g. 'romantic slice-of-life in Seoul')">
+        <button id="recommend">Recommend top 5</button>
+        <button id="check">Check readiness</button>
+      </div>
+      <p class="muted" style="margin: 10px 0 0;">Runs: query text → embedder → Weaviate nearVector → top results.</p>
+      <p id="status-text" class="muted" style="margin: 8px 0 0;"></p>
+      <div class="row" style="margin-top: 12px;">
+        <button id="toggle-json">Show JSON response</button>
+      </div>
+      <pre id="out" class="card hidden" style="margin-top: 12px; white-space: pre-wrap;"></pre>
+      <div id="results"></div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
+
